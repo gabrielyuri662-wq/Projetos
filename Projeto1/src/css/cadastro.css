@@ -1,0 +1,188 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 32px;
+  background-color: #f8f8fa;
+  color: var(--app-text);
+  font-family: var(--app-font);
+}
+
+.element-cadastro-de {
+  display: flex;
+  width: min(560px, 100%);
+  padding: 48px;
+  background: linear-gradient(180.03deg, #fafafa 0%, #ffffff 80.29%);
+  border-radius: 16px;
+  box-shadow: var(--app-shadow);
+  overflow: visible;
+}
+
+.element-cadastro-de .frame,
+.element-cadastro-de .form-container {
+  width: 100%;
+}
+
+.element-cadastro-de .form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.element-cadastro-de .text-wrapper {
+  margin: 0 0 4px;
+  color: var(--app-text);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.element-cadastro-de .div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.element-cadastro-de .email-label-1,
+.element-cadastro-de .email-label-2,
+.element-cadastro-de .email-label-3,
+.element-cadastro-de .email-label-4 {
+  color: #33333f;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.element-cadastro-de .email-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 13px 16px;
+  color: var(--app-text);
+  background-color: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  outline: none;
+}
+
+.element-cadastro-de .email-input::placeholder {
+  color: var(--app-subtle-text);
+  opacity: 1;
+}
+
+.element-cadastro-de .email-input:focus {
+  border-color: var(--app-active-color);
+  box-shadow: 0 0 0 3px rgba(123, 152, 187, 0.18);
+}
+
+.element-cadastro-de .group-botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.element-cadastro-de .email-label-wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+.element-cadastro-de .frame-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.element-cadastro-de .div-wrapper,
+.element-cadastro-de .email-input-2,
+.element-cadastro-de .email-input-3,
+.element-cadastro-de .email-input-4 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 13px 16px;
+  color: var(--app-muted-text);
+  background-color: var(--app-surface);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-card-shadow);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.element-cadastro-de .permission-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.element-cadastro-de .placeholder-3 {
+  color: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.element-cadastro-de .div-wrapper:has(.permission-input:checked),
+.element-cadastro-de .email-input-2:has(.permission-input:checked),
+.element-cadastro-de .email-input-3:has(.permission-input:checked),
+.element-cadastro-de .email-input-4:has(.permission-input:checked) {
+  color: #ffffff;
+  background-color: var(--app-active-color);
+  box-shadow: var(--app-shadow);
+}
+
+.element-cadastro-de .div-wrapper:has(.permission-input:focus-visible),
+.element-cadastro-de .email-input-2:has(.permission-input:focus-visible),
+.element-cadastro-de .email-input-3:has(.permission-input:focus-visible),
+.element-cadastro-de .email-input-4:has(.permission-input:focus-visible) {
+  outline: 2px solid var(--app-focus-color);
+  outline-offset: 2px;
+}
+
+.element-cadastro-de .btn-cadastrar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 50px;
+  padding: 13px 16px;
+  color: #ffffff;
+  background-color: var(--app-active-color);
+  border: 0;
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+.element-cadastro-de .button-text {
+  color: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+@media (max-width: 640px) {
+  body {
+    align-items: stretch;
+    padding: 0;
+  }
+
+  .element-cadastro-de {
+    min-height: 100vh;
+    padding: 32px 20px;
+    border-radius: 0;
+  }
+
+  .element-cadastro-de .frame-2 {
+    grid-template-columns: 1fr;
+  }
+}

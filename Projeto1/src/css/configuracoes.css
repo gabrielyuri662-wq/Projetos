@@ -1,0 +1,348 @@
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.settings-primary-grid {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.25fr) minmax(300px, 0.9fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.settings-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px;
+  color: var(--app-text);
+  background: linear-gradient(180.03deg, #fafafa 0%, #ffffff 80.29%);
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 16px;
+  box-shadow: var(--app-shadow);
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.settings-card-header {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  margin-bottom: 12px;
+}
+
+.settings-card-title {
+  margin: 0;
+  color: var(--app-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.settings-permissions-panel,
+.preferences-list {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.settings-permissions-panel {
+  flex: 1;
+  gap: 12px;
+}
+
+.permissions-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.permissions-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 40px;
+  padding: 8px 12px;
+  color: var(--app-muted-text);
+  text-align: center;
+  overflow-wrap: anywhere;
+  background: var(--app-surface);
+  border: 0;
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.permissions-tab:hover {
+  transform: translateY(-1px);
+}
+
+.permissions-tab-active {
+  color: #ffffff;
+  background: var(--app-active-color);
+}
+
+.permissions-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding: 8px 20px;
+}
+
+.permission-row,
+.preference-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-width: 0;
+  gap: 16px;
+}
+
+.permission-row {
+  min-height: 50px;
+  padding: 10px 4px;
+}
+
+.permission-label {
+  flex: 1;
+  min-width: 0;
+  color: var(--app-muted-text);
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.settings-switch {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-start;
+  width: 44px;
+  height: 24px;
+  padding: 3px;
+  background: #d2d2dc;
+  border: 0;
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+}
+
+.settings-switch-on {
+  justify-content: flex-end;
+  background: var(--app-active-color);
+}
+
+.settings-switch-knob {
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(4, 4, 4, 0.18);
+}
+
+.settings-divider {
+  width: 100%;
+  height: 1px;
+  flex: 0 0 auto;
+  background: #ebebf0;
+}
+
+.preferences-list {
+  width: 100%;
+}
+
+.preference-row {
+  min-height: 68px;
+  padding: 14px 0;
+}
+
+.preference-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  gap: 3px;
+}
+
+.preference-title {
+  margin: 0;
+  color: var(--app-muted-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.preference-description {
+  margin: 0;
+  color: var(--app-muted-text);
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.settings-about-card {
+  gap: 0;
+}
+
+.settings-about-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  gap: 20px;
+}
+
+.settings-about-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 0;
+  gap: 8px 20px;
+  color: var(--app-muted-text);
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.settings-copyright {
+  flex: 0 0 auto;
+  margin: 0;
+  color: var(--app-subtle-text);
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.settings-feedback {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  z-index: 20;
+  margin: 0;
+  padding: 10px 14px;
+  color: #ffffff;
+  background: var(--app-active-color);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.settings-feedback-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.settings-theme-dark {
+  --app-background: #121722;
+  --app-surface: #1b2230;
+  --app-text: #f5f7fb;
+  --app-muted-text: #c5cad6;
+  --app-subtle-text: #8e96a8;
+  --app-border: #333b4d;
+  --app-shadow: 0 0 14px rgba(0, 0, 0, 0.3);
+  background-color: var(--app-background);
+}
+
+.settings-theme-dark .settings-card {
+  background: linear-gradient(180.03deg, #202838 0%, #18202d 80.29%);
+  border-color: rgba(255, 255, 255, 0.04);
+}
+
+.settings-theme-dark .settings-divider {
+  background: #323a4b;
+}
+
+.settings-theme-dark .permissions-tab {
+  background: #242c3c;
+}
+
+.settings-theme-dark .permissions-tab-active {
+  background: var(--app-active-color);
+}
+
+@media (max-width: 1100px) {
+  .settings-primary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .permissions-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .settings-about-content {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .settings-copyright {
+    flex-basis: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .settings-content {
+    gap: 16px;
+  }
+
+  .settings-card {
+    padding: 16px;
+  }
+
+  .permissions-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .permissions-list {
+    padding: 4px 0;
+  }
+
+  .permission-row,
+  .preference-row {
+    align-items: flex-start;
+  }
+
+  .settings-switch {
+    margin-top: 2px;
+  }
+
+  .settings-about-meta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .settings-about-separator {
+    display: none;
+  }
+
+  .settings-feedback {
+    right: 16px;
+    bottom: 16px;
+  }
+}
