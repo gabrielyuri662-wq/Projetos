@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Relatórios - Estoque Search</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/relatorios.css" />
+  <script src="../java-script/login.js" defer></script>
+  <script src="../java-script/acesso.js" defer></script>
+</head>
+
+<body class="app-page" style="--app-active-color: #7b98bb;">
+  <div class="app-shell">
+
+    <aside class="app-sidebar" aria-label="Navegação principal">
+      <a class="app-sidebar-brand" href="./dashboard.html">
+        <img src="../../docs/img/logo.header.svg" alt="Logo Estoque Search">
+        <span class="app-sidebar-brand-title">Estoque<br>Search</span>
+      </a>
+      <div class="app-sidebar-panel">
+        <nav class="app-sidebar-nav">
+          <a class="app-sidebar-nav-item" href="./dashboard.html">
+            <img src="../../docs/img/icons/00-abas-dashboard.svg" class="app-sidebar-nav-icon" alt="">
+            <span class="app-sidebar-nav-label">Dashboard</span>
+          </a>
+          <a class="app-sidebar-nav-item" href="./produtos.html">
+            <img src="../../docs/img/icons/01-abas-produtos.svg" class="app-sidebar-nav-icon" alt="">
+            <span class="app-sidebar-nav-label">Produtos</span>
+          </a>
+          <a class="app-sidebar-nav-item" href="./saidas.html">
+            <img src="../../docs/img/icons/02-abas-saidas.svg" class="app-sidebar-nav-icon" alt="">
+            <span class="app-sidebar-nav-label">Saídas</span>
+          </a>
+          <a class="app-sidebar-nav-item" href="./relatorios.html" aria-current="page">
+            <img src="../../docs/img/icons/03-abas-off-relatorios.svg" class="app-sidebar-nav-icon" alt="">
+            <span class="app-sidebar-nav-label">Relatórios</span>
+          </a>
+          <a class="app-sidebar-nav-item" href="./usuarios.html">
+            <img src="../../docs/img/icons/04-abas-usuarios.svg" class="app-sidebar-nav-icon" alt="">
+            <span class="app-sidebar-nav-label">Usuários</span>
+          </a>
+          <a class="app-sidebar-nav-item" href="./calculadora.html">
+            <img src="../../docs/img/icons/05-abas-calculadora.svg" class="app-sidebar-nav-icon" alt="">
+            <span class="app-sidebar-nav-label">Calculadora</span>
+          </a>
+          <a class="app-sidebar-nav-item" href="./configuracoes.html">
+            <img src="../../docs/img/icons/06-abas-config.svg" class="app-sidebar-nav-icon" alt="">
+            <span class="app-sidebar-nav-label">Configurações</span>
+          </a>
+        </nav>
+
+        <div class="app-sidebar-footer">
+          <div class="app-sidebar-user-card">
+            <img class="app-sidebar-user-avatar"
+                 src="../../docs/img/icons/010-group-mini-icon.svg" alt="Avatar">
+            <div class="app-sidebar-user-info">
+              <span class="app-sidebar-user-label">Seu grupo:</span>
+              <strong class="app-sidebar-user-group">Gerentes</strong>
+            </div>
+          </div>
+          <a class="app-sidebar-logout" href="./login.html">
+            <img class="app-sidebar-logout-icon" src="../../docs/img/icons/011-exit.svg" alt="">
+            <span>Sair</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <header class="app-header">
+        <div class="app-header-panel">
+          <div>
+            <h1 class="app-header-title">Relatórios</h1>
+            <p class="app-header-subtitle">Relatório de vendas e produtos</p>
+          </div>
+          <div class="app-header-profile">
+            <img src="../../docs/img/15_foto_perfil.svg" alt="Foto do perfil">
+          </div>
+        </div>
+      </header>
+
+      <section class="app-content" aria-label="Relatórios">
+        <div class="relatorio-content">
+
+        
+          <div class="rel-filtros">
+            <div class="rel-filtro-grupo">
+              <label for="filtroPeriodo">Período:</label>
+              <select id="filtroPeriodo">
+                <option value="todos" selected>Todos</option>
+                <option value="7">Últimos 7 dias</option>
+                <option value="30">Últimos 30 dias</option>
+                <option value="60">Últimos 60 dias</option>
+                <option value="90">Últimos 90 dias</option>
+              </select>
+            </div>
+            <div class="rel-filtro-grupo">
+              <label for="filtroTipo">Tipo:</label>
+              <select id="filtroTipo">
+                <option value="todos" selected>Todos</option>
+                <option value="entrada">Entrada</option>
+                <option value="saida">Saída</option>
+              </select>
+            </div>
+            <button class="rel-btn-filtrar" id="btnFiltrar">Filtrar</button>
+            <button class="rel-btn-exportar" id="btnExportar">Exportar PDF</button>
+          </div>
+
+          <div class="rel-cards">
+            <div class="rel-card-resumo rel-card-entrada">
+              <span class="rel-card-label">Total Entradas (qtd)</span>
+              <span class="rel-card-valor" id="resumoEntradas">0</span>
+            </div>
+            <div class="rel-card-resumo rel-card-saida">
+              <span class="rel-card-label">Total Saídas (qtd)</span>
+              <span class="rel-card-valor" id="resumoSaidas">0</span>
+            </div>
+            <div class="rel-card-resumo rel-card-valor">
+              <span class="rel-card-label">Valor Movimentado</span>
+              <span class="rel-card-valor" id="resumoValor">R$ 0,00</span>
+            </div>
+            <div class="rel-card-resumo rel-card-produtos">
+              <span class="rel-card-label">Produtos Distintos</span>
+              <span class="rel-card-valor" id="resumoProdutos">0</span>
+            </div>
+          </div>
+
+          <div class="rel-card">
+            <h2 class="rel-card-titulo">Movimentação Mensal</h2>
+            <div class="rel-grafico-container">
+              <canvas id="grafico"></canvas>
+            </div>
+          </div>
+
+          <div class="rel-card">
+            <h2 class="rel-card-titulo">Detalhamento</h2>
+            <div class="rel-tabela-wrapper">
+              <table class="rel-tabela">
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Produto</th>
+                    <th>Tipo</th>
+                    <th>Qtd</th>
+                    <th>Preço Unit.</th>
+                    <th>Fornecedor</th>
+                    <th>Nota Fiscal</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody id="corpoTabela">
+                  <tr>
+                    <td colspan="8" class="td-vazio">Carregando...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="../java-script/login.js"></script>
+  <script src="../java-script/relatorios.js"></script>
+</body>
+</html>

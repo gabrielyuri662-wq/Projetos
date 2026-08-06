@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>usuarios</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/saidas.css">
+    <script src="../java-script/login.js" defer></script>
+    <script src="../java-script/acesso.js" defer></script>
+    <script defer>
+        let db_saidas = JSON.parse(localStorage.getItem("db_saidas")) || {
+            saidas: []
+        };
+        let db_produtos = JSON.parse(
+            localStorage.getItem("db_produtos")
+        ) || {
+            produtos: []
+        };
+
+        /* ── Seed de saídas históricas (apenas na primeira vez) ── */
+
+        const SEED_SAIDAS = [
+            // Janeiro 2026
+            { codigo: 1001, produto: 'Arroz Tipo 1 5kg',            quantidade: 3,  preco: '24.90', fornecedor: 'Mercado Central',  nf: 'V-0001', data: '2026-01-12', observacoes: '' },
+            { codigo: 1002, produto: 'Feijão Carioca 1kg',           quantidade: 5,  preco: '7.80',  fornecedor: 'Mercado Central',  nf: 'V-0001', data: '2026-01-12', observacoes: '' },
+            { codigo: 1003, produto: 'Óleo de Soja 900ml',           quantidade: 4,  preco: '6.50',  fornecedor: 'Mercado Central',  nf: 'V-0002', data: '2026-01-18', observacoes: '' },
+            { codigo: 1004, produto: 'Açúcar Cristal 2kg',           quantidade: 6,  preco: '4.20',  fornecedor: 'Padaria Pão Quente', nf: 'V-0003', data: '2026-01-22', observacoes: '' },
+            { codigo: 1005, produto: 'Biscoito Recheado Chocolate 150g', quantidade: 8, preco: '3.50', fornecedor: 'Padaria Pão Quente', nf: 'V-0003', data: '2026-01-22', observacoes: '' },
+            // Fevereiro 2026
+            { codigo: 1006, produto: 'Café Torrado Moído 500g',      quantidade: 4,  preco: '14.90', fornecedor: 'Mercado Central',  nf: 'V-0004', data: '2026-02-08', observacoes: '' },
+            { codigo: 1007, produto: 'Macarrão Espaguete 500g',      quantidade: 10, preco: '4.30',  fornecedor: 'Mercado Central',  nf: 'V-0004', data: '2026-02-08', observacoes: '' },
+            { codigo: 1008, produto: 'Molho de Tomate 340g',         quantidade: 6,  preco: '3.90',  fornecedor: 'Mercado Central',  nf: 'V-0005', data: '2026-02-15', observacoes: '' },
+            { codigo: 1009, produto: 'Biscoito Recheado Morango 150g', quantidade: 5, preco: '3.50', fornecedor: 'Padaria Pão Quente', nf: 'V-0006', data: '2026-02-22', observacoes: '' },
+            { codigo: 1010, produto: 'Sal Refinado 1kg',             quantidade: 10, preco: '2.10',  fornecedor: 'Mercado Central',  nf: 'V-0007', data: '2026-02-26', observacoes: '' },
+            // Março 2026
+            { codigo: 1011, produto: 'Arroz Parboilizado 5kg',       quantidade: 3,  preco: '26.50', fornecedor: 'Mercado Central',  nf: 'V-0008', data: '2026-03-06', observacoes: '' },
+            { codigo: 1012, produto: 'Feijão Preto 1kg',             quantidade: 6,  preco: '8.20',  fornecedor: 'Mercado Central',  nf: 'V-0008', data: '2026-03-06', observacoes: '' },
+            { codigo: 1013, produto: 'Achocolatado em Pó 400g',      quantidade: 3,  preco: '8.90',  fornecedor: 'Padaria Pão Quente', nf: 'V-0009', data: '2026-03-14', observacoes: '' },
+            { codigo: 1014, produto: 'Extrato de Tomate 300g',        quantidade: 7,  preco: '3.20',  fornecedor: 'Padaria Pão Quente', nf: 'V-0009', data: '2026-03-14', observacoes: '' },
+            { codigo: 1015, produto: 'Sabonete 90g',                  quantidade: 12, preco: '2.50',  fornecedor: 'Mercado Central',  nf: 'V-0010', data: '2026-03-22', observacoes: '' },
+            // Abril 2026
+            { codigo: 1016, produto: 'Creme Dental 90g',             quantidade: 10, preco: '3.90',  fornecedor: 'Mercado Central',  nf: 'V-0011', data: '2026-04-05', observacoes: '' },
+            { codigo: 1017, produto: 'Detergente Líquido 500ml',      quantidade: 8,  preco: '2.90',  fornecedor: 'Mercado Central',  nf: 'V-0011', data: '2026-04-05', observacoes: '' },
+            { codigo: 1018, produto: 'Água Sanitária 1L',             quantidade: 6,  preco: '3.60',  fornecedor: 'Limpeza Total',    nf: 'V-0012', data: '2026-04-12', observacoes: '' },
+            { codigo: 1019, produto: 'Sabão em Pó 1kg',               quantidade: 4,  preco: '12.90', fornecedor: 'Limpeza Total',    nf: 'V-0013', data: '2026-04-18', observacoes: '' },
+            { codigo: 1020, produto: 'Margarina 500g',                quantidade: 5,  preco: '6.20',  fornecedor: 'Laticínios Minas', nf: 'V-0014', data: '2026-04-25', observacoes: '' },
+            // Maio 2026
+            { codigo: 1021, produto: 'Refrigerante Cola 2L',          quantidade: 12, preco: '7.90',  fornecedor: 'Mercado Central',  nf: 'V-0015', data: '2026-05-06', observacoes: '' },
+            { codigo: 1022, produto: 'Suco de Laranja 1L',            quantidade: 6,  preco: '6.40',  fornecedor: 'Mercado Central',  nf: 'V-0015', data: '2026-05-06', observacoes: '' },
+            { codigo: 1023, produto: 'Água Mineral 500ml',            quantidade: 24, preco: '1.80',  fornecedor: 'Mercado Central',  nf: 'V-0015', data: '2026-05-06', observacoes: '' },
+            { codigo: 1024, produto: 'Cerveja Lata 350ml',            quantidade: 24, preco: '3.50',  fornecedor: 'Bebidas Geladas',  nf: 'V-0016', data: '2026-05-18', observacoes: '' },
+            { codigo: 1025, produto: 'Requeijão Cremoso 200g',        quantidade: 4,  preco: '7.40',  fornecedor: 'Laticínios Minas', nf: 'V-0017', data: '2026-05-25', observacoes: '' },
+            // Junho 2026
+            { codigo: 1026, produto: 'Amaciante 500ml',               quantidade: 6,  preco: '5.80',  fornecedor: 'Mercado Central',  nf: 'V-0018', data: '2026-06-04', observacoes: '' },
+            { codigo: 1027, produto: 'Papel Higiênico 12x 30m',       quantidade: 3,  preco: '14.90', fornecedor: 'Mercado Central',  nf: 'V-0018', data: '2026-06-04', observacoes: '' },
+            { codigo: 1028, produto: 'Biscoito Salgado Cream Cracker 200g', quantidade: 5, preco: '4.10', fornecedor: 'Padaria Pão Quente', nf: 'V-0019', data: '2026-06-10', observacoes: '' },
+            { codigo: 1029, produto: 'Leite Condensado 395g',         quantidade: 4,  preco: '6.90',  fornecedor: 'Padaria Pão Quente', nf: 'V-0019', data: '2026-06-10', observacoes: '' },
+            { codigo: 1030, produto: 'Milho de Pipoca 500g',          quantidade: 8,  preco: '4.70',  fornecedor: 'Cereal Distribuidora', nf: 'V-0020', data: '2026-06-14', observacoes: '' },
+        ];
+
+        const DB_SAIDAS_VERSAO = '2';
+
+        function inicializarSaidas() {
+            const versaoSalva = localStorage.getItem('db_saidas_versao');
+            if (versaoSalva !== DB_SAIDAS_VERSAO) {
+                localStorage.setItem('db_saidas', JSON.stringify({ saidas: SEED_SAIDAS }));
+                localStorage.setItem('db_saidas_versao', DB_SAIDAS_VERSAO);
+                db_saidas.saidas = SEED_SAIDAS;
+            }
+        }
+
+        function carregarProdutos() {
+
+            const lista =
+                document.getElementById("lista-produtos");
+
+            lista.innerHTML = "";
+
+            db_produtos.produtos.forEach(produto => {
+
+                lista.innerHTML += `
+            <option value="${produto.nome}">
+        `;
+            });
+        }
+        function preencherDadosProduto() {
+
+            const nomeProduto =
+                document.getElementById("busca-produtos").value;
+
+            const produto = db_produtos.produtos.find(
+                p => p.nome.toLowerCase() ===
+                    nomeProduto.toLowerCase()
+            );
+
+            if (!produto) {
+                return;
+            }
+
+            document.getElementById("preco").value =
+                produto.preco || "";
+
+            document.getElementById("fornecedor").value =
+                produto.fornecedor || "";
+
+            document.getElementById("nf").value =
+                produto.notaFiscal || "";
+        }
+        function registrarSaida() {
+
+            const produto = document.getElementById("busca-produtos").value;
+            const produtoEncontrado =
+                db_produtos.produtos.find(
+                    p => p.nome.toLowerCase() ===
+                        produto.toLowerCase()
+                );
+
+            if (!produtoEncontrado) {
+
+                alert("Produto não encontrado.");
+                return;
+            }
+            const quantidade = document.getElementById("quantidade").value;
+            const preco = document.getElementById("preco").value;
+            const fornecedor = document.getElementById("fornecedor").value;
+            const nf = document.getElementById("nf").value;
+            const data = document.getElementById("data").value;
+            const observacoes = document.getElementById("obs").value;
+
+            if (!produto || !quantidade) {
+                alert("Preencha produto e quantidade.");
+                return;
+            }
+
+
+            if (
+                Number(quantidade) >
+                Number(produtoEncontrado.quantidade)
+            ) {
+                alert("Estoque insuficiente.");
+                return;
+            }
+            const novaSaida = {
+                codigo: Date.now(),
+                produto,
+                quantidade,
+                preco,
+                fornecedor,
+                nf,
+                data,
+                observacoes
+            };
+
+            db_saidas.saidas.push(novaSaida);
+
+            localStorage.setItem(
+                "db_saidas",
+                JSON.stringify(db_saidas)
+            );
+
+            produtoEncontrado.quantidade =
+                Number(produtoEncontrado.quantidade) -
+                Number(quantidade);
+
+            localStorage.setItem(
+                "db_produtos",
+                JSON.stringify(db_produtos)
+            );
+
+
+
+            document.getElementById("busca-produtos").value = "";
+            document.getElementById("quantidade").value = "";
+            document.getElementById("preco").value = "";
+            document.getElementById("fornecedor").value = "";
+            document.getElementById("nf").value = "";
+            document.getElementById("data").value = "";
+            document.getElementById("obs").value = "";
+
+            exibeSaidas();
+        }
+
+
+
+        function escapeHtml(valor) {
+
+            const mapa = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            };
+
+            return String(valor ?? "")
+                .replace(/[&<>"']/g, caractere => mapa[caractere]);
+        }
+
+        function exibeSaidas() {
+
+            let listaSaidas = "";
+
+            if (db_saidas.saidas.length === 0) {
+
+                document.getElementById("table-saidas").innerHTML = `
+<tr class="empty-row">
+    <td colspan="8">
+        Nenhuma saída cadastrada
+    </td>
+</tr>
+        `;
+
+                return;
+            }
+
+            for (let i = 0; i < db_saidas.saidas.length; i++) {
+
+                const saida = db_saidas.saidas[i];
+
+                listaSaidas += `
+            <tr>
+                <td>${saida.codigo}</td>
+                <td>${escapeHtml(saida.produto)}</td>
+                <td>-</td>
+                <td>${escapeHtml(saida.quantidade)}</td>
+                <td>R$ ${escapeHtml(saida.preco)}</td>
+                <td>${escapeHtml(saida.nf)}</td>
+                <td>${escapeHtml(saida.data)}</td>
+                <td>
+                    <span class="actions-group">
+                        <button type="button" class="btn-action btn-action-delete" onclick="excluirSaida(${i})" title="Excluir saída">
+                            <img src="../../docs/img/icons/trash-delete.svg" alt="Excluir">
+                        </button>
+                    </span>
+                </td>
+            </tr>
+        `;
+            }
+
+            document.getElementById("table-saidas").innerHTML = listaSaidas;
+        }
+
+        function excluirSaida(indice) {
+            const confirmar = confirm(
+                "Deseja realmente exlcuir esta saída?"
+            );
+            if (!confirmar) {
+                return;
+            }
+            const saida = db_saidas.saidas[indice];
+
+            const produto = db_produtos.produtos.find(
+                p => p.nome === saida.produto
+            );
+
+            if (produto) {
+
+                produto.quantidade =
+                    Number(produto.quantidade) +
+                    Number(saida.quantidade);
+
+                localStorage.setItem(
+                    "db_produtos",
+                    JSON.stringify(db_produtos)
+                );
+            }
+
+            db_saidas.saidas.splice(indice, 1);
+
+            localStorage.setItem(
+                "db_saidas",
+                JSON.stringify(db_saidas)
+            );
+
+            exibeSaidas();
+
+        }
+        function initPage() {
+
+            inicializarSaidas();
+
+            document
+                .getElementById("btnRegistrarSaida")
+                ?.addEventListener(
+                    "click",
+                    registrarSaida
+                );
+
+            document
+                .getElementById("busca-produtos")
+                ?.addEventListener(
+                    "change",
+                    preencherDadosProduto
+                );
+
+            carregarProdutos();
+
+            exibeSaidas();
+        }
+
+        window.addEventListener("load", initPage);
+
+    </script>
+</head>
+
+<body class="app-page saidas-page" style="--app-active-color: #7b98bb;">
+    <div class="app-shell">
+        <aside class="app-sidebar" aria-label="Navegação principal">
+            <a class="app-sidebar-brand" href="./saidas.html" aria-label="Ir para o saidas">
+                <img src="../../docs/img/logo.header.svg" alt="Logo Estoque Search">
+                <span class="app-sidebar-brand-title">Estoque<br>Search</span>
+            </a>
+
+            <div class="app-sidebar-panel">
+                <nav class="app-sidebar-nav" aria-label="Menu principal">
+
+                    <a class="app-sidebar-nav-item" href="./dashboard.html">
+                        <img src="../../docs/img/icons/00-abas-dashboard.svg" alt="" class="app-sidebar-nav-icon">
+                        <span class="app-sidebar-nav-label">Dashboard</span>
+                    </a>
+
+                    <a class="app-sidebar-nav-item" href="./produtos.html">
+                        <img src="../../docs/img/icons/01-abas-produtos.svg" alt="" class="app-sidebar-nav-icon">
+                        <span class="app-sidebar-nav-label">Produtos</span>
+                    </a>
+
+                    <a class="app-sidebar-nav-item" href="./saidas.html" aria-current="page">
+                        <img src="../../docs/img/icons/02-abas_off-saidas.svg" alt="" class="app-sidebar-nav-icon">
+                        <span class="app-sidebar-nav-label">Saídas</span>
+                    </a>
+
+                    <a class="app-sidebar-nav-item" href="./relatorios.html">
+                        <img src="../../docs/img/icons/03-abas-relatorios.svg" alt="" class="app-sidebar-nav-icon">
+                        <span class="app-sidebar-nav-label">Relatórios</span>
+                    </a>
+
+                    <a class="app-sidebar-nav-item" href="./usuarios.html">
+                        <img src="../../docs/img/icons/04-abas-usuarios.svg" alt="" class="app-sidebar-nav-icon">
+                        <span class="app-sidebar-nav-label">Usuários</span>
+                    </a>
+
+                    <a class="app-sidebar-nav-item" href="./calculadora.html">
+                        <img src="../../docs/img/icons/05-abas-calculadora.svg" alt="" class="app-sidebar-nav-icon">
+                        <span class="app-sidebar-nav-label">Calculadora</span>
+                    </a>
+
+                    <a class="app-sidebar-nav-item" href="./configuracoes.html">
+                        <img src="../../docs/img/icons/06-abas-config.svg" alt="" class="app-sidebar-nav-icon">
+                        <span class="app-sidebar-nav-label">Configurações</span>
+                    </a>
+                </nav>
+                <div class="app-sidebar-footer">
+                    <div class="app-sidebar-user-card">
+                        <img class="app-sidebar-user-avatar" src="../../docs/img/icons/010-group-mini-icon.svg"
+                            alt="Foto do usuário">
+
+                        <div class="app-sidebar-user-info">
+                            <span class="app-sidebar-user-label">Seu grupo:</span>
+                            <strong class="app-sidebar-user-group">Gerentes</strong>
+                        </div>
+                    </div>
+
+                    <a class="app-sidebar-logout" href="./login.html">
+                        <img class="app-sidebar-logout-icon" src="../../docs/img/icons/011-exit.svg" alt="">
+                        <span>Sair</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="app-main">
+            <header class="app-header">
+                <div class="app-header-panel">
+                    <div>
+                        <h1 class="app-header-title">Saídas</h1>
+                        <p class="app-header-subtitle">Registro e Histórico de saídas</p>
+                    </div>
+
+                    <div class="app-header-profile">
+                        <img src="../../docs/img/15_foto_perfil.svg" alt="Foto do perfil">
+                    </div>
+                </div>
+            </header>
+
+            <section class="app-content produtos-content" aria-label="Conteúdo de produtos">
+
+
+                <div class="product-toolbar">
+                    <div class="product-header">
+                        <img id="exit-icon" src="../../docs/img/icons/012-exit-yellow.svg.svg">
+                        <h1 class="product-toolbar-title">Nova saída de produto</h1>
+                    </div>
+
+                    <div class="product-search-field">
+
+                        <label for="busca-produtos">Produto</label>
+                        <div class="product-search-box">
+
+                            <input id="busca-produtos" type="search" placeholder="Digite o produto"
+                                list="lista-produtos" autocomplete="off">
+                            <img src="../../docs/img/icons/search.svg" alt="">
+
+                            <datalist id="lista-produtos"></datalist>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <div class="product-field">
+                            <label for="quantidade">Quantidade</label>
+                            <input id="quantidade" type="number" placeholder="0">
+                        </div>
+
+                        <div class="product-field">
+                            <label for="preco">Preço Unitário</label>
+                            <input id="preco" type="number" placeholder="R$ 0,00" step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="product-field">
+                        <label for="fornecedor">Fornecedor</label>
+                        <input id="fornecedor" type="text" placeholder="Nome do Fornecedor">
+                    </div>
+
+                    <div class="product-row">
+                        <div class="product-field">
+                            <label for="nota-fiscal">Nota Fiscal</label>
+                            <input id="nf" type="text" placeholder="Nº da NF">
+                        </div>
+
+                        <div class="product-field">
+                            <label for="data">Data</label>
+                            <input id="data" type="date">
+                        </div>
+                    </div>
+
+                    <div class="product-search-field">
+                        <label for="obs">Observações</label>
+                        <input id="obs" type="text" placeholder="Observações adicionais">
+                    </div>
+
+
+                    <div class="product-actions">
+                        <button id="btnRegistrarSaida" class="btn-new-product">
+                            <img src="../../docs/img/icons/add-circle.svg" alt="">
+                            <span>Registrar Saída</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="recent-exits">
+
+                    <div class="recent-exit-header">
+                        <img id="recent-icon" src="../../docs/img/icons/013-recent-icon.svg" alt="">
+                        <h1 class="recent-title">Saídas recentes</h1>
+                    </div>
+
+
+                    <div class="product-recent-table-card">
+                        <div class="product-table-wrap">
+                            <table id="grid-products">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Código</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">QTD</th>
+                                        <th scope="col">Preço</th>
+                                        <th scope="col">NF</th>
+                                        <th scope="col">Data</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-saidas">
+                                    <tr class="empty-row">
+                                        <td colspan="8">Carregando saídas...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+    </section>
+
+    </main>
+    </div>
+</body>
+
+</html>
